@@ -27,10 +27,12 @@ Route::get('/agent/timeslots', 'App\Http\Controllers\TimeslotController@index')-
 //Appointment Route
 Route::resource('appointments', 'App\Http\Controllers\AppointmentController');
 Route::get('/appointments', 'App\Http\Controllers\AppointmentController@index')->name('appointments');
+Route::get('agent/appointments', 'App\Http\Controllers\AppointmentController@agentIndex')->name('appointments.agentIndex');
 Route::get('/appointments/create/{propertyID}', 'App\Http\Controllers\AppointmentController@create')->name('appointment.create');
 
 //Notification Route
 Route::resource('notifications', 'App\Http\Controllers\NotificationController');
+Route::get('/tenant/notifications', 'App\Http\Controllers\NotificationController@tenantIndex')->name('notifications.tenant');
 Route::get('/agent/notifications', 'App\Http\Controllers\NotificationController@index')->name('notifications');
 
 //Property Route

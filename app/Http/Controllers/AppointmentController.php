@@ -20,6 +20,16 @@ class AppointmentController extends Controller
         return view('appointmentIndex', compact('appointments'));
     }
 
+    public function agentIndex()
+    {
+        $agentID = "AGT1234567";
+        // Retrieve appointments for the agent along with related property information
+        $appointments = Appointment::whereHas('property', function ($query) use ($agentID) {
+            $query->where('agentID', $agentID);
+        })->get();
+        return view('agent/appointmentIndex', compact('appointments'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -56,7 +66,7 @@ class AppointmentController extends Controller
             'message' => 'nullable|string',
         ]);
 
-     
+
         // Create a new appointment
         $appointment = new Appointment();
         $appointment->appID = $this->generateUniqueAppointmentID();
@@ -75,8 +85,8 @@ class AppointmentController extends Controller
         // You may want to send a confirmation email, etc.
 
         return redirect()->route('appointments')
-        ->with('success', 'Appointment ' . $appointment->appID . ' booked successfully!');
-    
+            ->with('success', 'Appointment ' . $appointment->appID . ' booked successfully!');
+
     }
 
     /**

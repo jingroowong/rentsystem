@@ -12,8 +12,16 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $notifications = Notification::all();
+        $agentID = "AGT1234567";
+        $notifications = Notification::where('userID', $agentID)->get();
         return view('agent/notificationIndex', compact('notifications'));
+    }
+
+    public function tenantIndex()
+    {
+        $tenantID = "TNT1234123";
+        $notifications = Notification::where('userID', $tenantID)->get();
+        return view('notificationIndex', compact('notifications'));
     }
 
     /**

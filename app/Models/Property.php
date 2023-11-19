@@ -27,9 +27,8 @@ public function agent()
 {
     return $this->belongsTo(Agent::class, 'agentID');
 }
-
-public function appointment()
+public function appointments()
 {
-    return $this->hasMany(Appointment::class, 'appID', 'appID');
+    return $this->hasMany(Appointment::class, 'propertyID', 'propertyID');
 }
 }

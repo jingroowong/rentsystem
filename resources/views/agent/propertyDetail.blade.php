@@ -17,23 +17,57 @@
         padding: 20px;
         font-family: 'Arial', sans-serif;
         /* Use a common font for better compatibility */
-
     }
 
     .carousel-item img {
         max-width: 100%;
-        height: auto;
+        max-height: 300px;
         border-radius: 8px;
-        /* Rounded corners for images */
     }
 
-    .agent-profile {
-        border: 1px solid #ddd;
-        padding: 20px;
-        margin-top: 20px;
+    .agentProfile {
+        border: 1px solid blue;
+        padding: 10px;
         border-radius: 8px;
         background-color: #fff;
-        /* Add a background color for a card-like appearance */
+    }
+
+    .agentProfile img {
+        max-width: 50px;
+        max-height: 50px;
+    }
+
+    .agentBtn a {
+        width: 70%;
+        margin-top: 10px;
+    }
+.facilities{
+    font-size: 18px;
+        padding: 10px; 
+}
+
+.facilities i{
+    margin-right: 20px;
+}
+    .propertyDetail td {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .propertyDetail i {
+        margin-right: 20px;
+    }
+
+    .propertyDetail {
+        width: 80%;
+    }
+
+
+
+    .price {
+        color: blue;
+        font-weight: bold;
+        font-family: 'Tahoma';
     }
 
     /* Add some spacing to improve readability */
@@ -82,11 +116,11 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-
+        </br>
         <div class="container-sm">
             <!-- Property Overview Section -->
-            <div class="property-overview-section row">
-                <div class="property-overview-root col">
+            <div class="row">
+                <div class="col-12 col-md-8">
                     <div class="location-info">
                         <h1 class="title">{{ $property->propertyName }}</h1>
                         <div class="full-address">
@@ -98,222 +132,152 @@
                             </p>
                         </div>
                     </div>
-                    <hr class="horizontal-divider" />
-                    <div class="property-info">
-                        <div class="price-summary">
-                            <div class="price">
-                                <h2 class="amount">RM {{ $property->rentalAmount }} /MONTH</h2>
-                            </div>
-                        </div>
-                        <div class="price-divider"></div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="price">
+                        <h3 class="amount">RM {{ $property->rentalAmount }} /MONTH</h3>
                     </div>
-                    <hr class="horizontal-divider" />
                 </div>
             </div>
 
-            <!-- Property Amenities Section -->
-            <section class="property-amenities-section">
-                <div class="property-amenities-root">
-                    <h2 class="meta-table__title col">Property details</h2>
+            </br>
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <!-- Property Amenities Section -->
+                    <div class="property-amenities-root">
+                        <h4 class="meta-table__title">Property details</h4>
+                        <ul class="property-amenities__tab-header nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation"><button type="button"
+                                    id="react-aria-3-tab-Unit Features" role="tab"
+                                    data-rr-ui-event-key="Property Overview"
+                                    aria-controls="react-aria-3-tabpane-Property Overview" aria-selected="true"
+                                    class="property-amenities__tab-header-item nav-link active">Property
+                                    Overview</button>
+                            </li>
+                            <li class="nav-item" role="presentation"><button type="button"
+                                    id="react-aria-3-tab-Facilities" role="tab" data-rr-ui-event-key="Facilities"
+                                    aria-controls="react-aria-3-tabpane-Facilities" aria-selected="false" tabindex="-1"
+                                    class="property-amenities__tab-header-item nav-link">Facilities</button>
+                            </li>
+                        </ul>
 
-                    <ul class="property-amenities__tab-header nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation"><button type="button"
-                                id="react-aria-3-tab-Unit Features" role="tab" data-rr-ui-event-key="Unit Features"
-                                aria-controls="react-aria-3-tabpane-Unit Features" aria-selected="true"
-                                class="property-amenities__tab-header-item nav-link active">Property
-                                Overview</button></li>
-                        <li class="nav-item" role="presentation"><button type="button" id="react-aria-3-tab-Facilities"
-                                role="tab" data-rr-ui-event-key="Facilities"
-                                aria-controls="react-aria-3-tabpane-Facilities" aria-selected="false" tabindex="-1"
-                                class="property-amenities__tab-header-item nav-link">Facilities</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div role="tabpanel" id="react-aria-3-tabpane-Unit Features"
-                            aria-labelledby="react-aria-3-tab-Unit Features" class="fade tab-pane active show">
-                            <div class="property-amenities__body">
-                                <div class="meta-table-root">
-                                    <div class="row">
-
-                                        <div class="description trimmed">{{ $property->propertyDesc}}
-                                        </div>
+                        <div class="tab-content">
+                            <div role="tabpanel" id="react-aria-3-tabpane-Property Overview"
+                                aria-labelledby="react-aria-3-tab-Property Overview" class="fade tab-pane active show">
+                                <div class="property-amenities__body">
+                                    <div class="meta-table-root">
+                                        <h6>
+                                            {{ $property->propertyDesc}}
+                                        </h6>
+                                        <table class="propertyDetail">
+                                            <tr>
+                                                <td class="meta-table__item-wrapper ">
+                                                    <i class="las la-building"></i> {{ $property->propertyType }}
+                                                </td>
+                                                <td class="meta-table__item-wrapper">
+                                                    <i class="las la-crop-alt"></i> {{ $property->squareFeet }} sqft
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="meta-table__item-wrapper">
+                                                    <i class="las la-brush"></i> {{ $property->furnishingType }}
+                                                </td>
+                                                <td class="meta-table__item-wrapper">
+                                                    <i class="las la-brush"></i> {{ $property->buildYear }} Year
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="meta-table__item-wrapper">
+                                                    <i class="las la-bed"></i> {{ $property->bedroomNum }} Bedroom
+                                                </td>
+                                                <td class="meta-table__item-wrapper">
+                                                    <i class="las la-bath"></i> {{ $property->bathroomNum }}
+                                                    Bathroom
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
-                                    <table class="row">
-                                        <tbody>
-                                            <tr class="row">
-                                                <td class="meta-table__item-wrapper col-md-6 col-12">
-                                                    <div class="meta-table__item">
-                                                        <div class="row">
-                                                            <div class="meta-table__item__label col-md-12 col-5">
-                                                                Property
-                                                                Type</div>
-                                                            <div class="meta-table__item__value col-md-12 col-7">
-                                                                <div class="meta-table__item__value-text">
-                                                                    {{ $property->propertyType }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="meta-table__item-wrapper col-md-6 col-12">
-                                                    <div class="meta-table__item">
-                                                        <div class="row">
-                                                            <div class="meta-table__item__label col-md-12 col-5">
-                                                                <i class="las la-crop-alt"></i>Floor
-                                                                Size
-                                                            </div>
-                                                            <div class="meta-table__item__value col-md-12 col-7">
-                                                                <div class="meta-table__item__value-text">
-                                                                    {{ $property->squareFeet }} sqft
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="meta-table__item-wrapper col-md-6 col-12">
-                                                    <div class="meta-table__item">
-                                                        <div class="row">
-                                                            <div class="meta-table__item__label col-md-12 col-5">
-                                                                <i class="las la-brush"></i>Furnishing
-                                                            </div>
-                                                            <div class="meta-table__item__value col-md-12 col-7">
-                                                                <div class="meta-table__item__value-text">
-                                                                    {{ $property->furnishingType }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="meta-table__item-wrapper col-md-6 col-12">
-                                                    <div class="meta-table__item">
-                                                        <div class="row">
-                                                            <div class="meta-table__item__label col-md-12 col-5">
-                                                                <i class="las la-brush"></i>Built Year
-                                                            </div>
-                                                            <div class="meta-table__item__value col-md-12 col-7">
-                                                                <div class="meta-table__item__value-text">
-                                                                    {{ $property->buildYear }} year
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="meta-table__item-wrapper col-md-6 col-12">
-                                                    <div class="meta-table__item">
-                                                        <div class="row">
-                                                            <div class="meta-table__item__label col-md-12 col-5">
-                                                                <i class="las la-bed"></i>Bedroom
-                                                            </div>
-                                                            <div class="meta-table__item__value col-md-12 col-7">
-                                                                <div class="meta-table__item__value-text">
-                                                                    {{ $property->bedroomNum }} bed
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="meta-table__item-wrapper col-md-6 col-12">
-                                                    <div class="meta-table__item">
-                                                        <div class="row">
-                                                            <div class="meta-table__item__label col-md-12 col-5">
-                                                                <i class="las la-bath"></i>Bathroom
-                                                            </div>
-                                                            <div class="meta-table__item__value col-md-12 col-7">
-                                                                <div class="meta-table__item__value-text">
-                                                                    {{ $property->bathroomNum }} bath
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div role="tabpanel" id="react-aria-3-tabpane-Facilities"
-                        aria-labelledby="react-aria-3-tab-Facilities" class="fade tab-pane">
-                        <div class="property-amenities__body">
-                            <div class="property-amenities__row row">
-                                @forelse($property->propertyFacilities ?? [] as $facility)
-                                <div class="col-md-6 col-12">
-                                    <div class="property-amenities__row-item"><i
-                                            class="{{ $facility->facility->facilityIcon }}"></i>
-                                        {{ $facility->facility->facilityName }}</div>
+                            <div role="tabpanel" id="react-aria-3-tabpane-Facilities"
+                                aria-labelledby="react-aria-3-tab-Facilities" class="fade tab-pane">
+                                <div class="property-amenities__body">
+                                    <div class="meta-table-root row facilities">
+                                        @forelse($property->propertyFacilities ?? [] as $facility)
+                                        <div class="col-md-6 col-12">
+                                            <i class="{{ $facility->facility->facilityIcon }}"></i>
+                                            {{ $facility->facility->facilityName }}
+                                        </div>
+
+                                        @empty
+                                        <li>No facilities available</li>
+                                        @endforelse
+                                    </div>
                                 </div>
-                                @empty
-                                <li>No facilities available</li>
-                                @endforelse
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
-
-        <div class="section-divider"></div>
-        <!-- Agent Profile -->
-        <div class="agent-profile mt-4">
-            <div class="card-header">
-                <div class="agent-info-root">
-                    <div class="avatar-wrapper">
-                        <a href="#" class="actionable-link avatar-link">
-                            <img class="hui-image-root avatar" src="{{Storage::url('property-photos/unnamed.jpg')}}"
+                <div class="col-6 col-md-4 agentProfile">
+                    <!-- Agent Profile -->
+                    <div class="card-header row">
+                        <div class="col-2">
+                            <img class="avatar" src="{{Storage::url('property-photos/unnamed.jpg')}}"
                                 alt="{{ $agent->agentName }}">
-                        </a>
-                    </div>
-                    <div class="details-wrapper">
-                        <div class="agent-name-wrapper">
-                            <a href="#" class="actionable-link agent-name truncate-line">{{ $agent->agentName }}</a>
                         </div>
-                        <div class="agent-description">
-                            <div>REN: 17144</div>
-                            <div>Phone: {{ $agent->agentPhone }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="contact-agent-actions">
-                    <div class="contact-agent-actions">
+                        <div class="col-10">
+                            <h5 class="card-title">{{ $agent->agentName }}</h5>
+                            <p class="card-text"><small class="text-muted">REN: 17144</small></p>
 
-                       
-                            <a href="{{ route('appointment.create', ['propertyID' => $property->propertyID]) }}"
-                                class="btn btn-primary">
-                                <i class="pgicon-phone-o"></i> Book Appointment
-                            </a>
-                        
-
-                        <div class="actionable-link actionable-text btn-outline-secondary btn"
-                            data-automation-id="enquiry-widget-phone-btn">
-                            <div class="reveal-animation-backgound"></div>
-                            <div class="phone-number"><i class="pgicon-phone-o"></i>View agent profile</div>
                         </div>
-                        <div class="actionable-link btn-outline-secondary btn"
-                            data-automation-id="enquiry-widget-msg-btn"><i class="pgicon-mail-o"></i><span
-                                class="label">Send Enquiry</span></div>
                     </div>
-                </div>
-                <div class="terms-and-policy">
-                    I confirm that I have read the <a href="/privacy" rel="noopener noreferrer" target="_blank">privacy
-                        policy</a> and allow my
-                    information to be shared with this agent who may contact me later.
+                    <div class="card-body text-center agentBtn">
+                        <a href="{{ route('appointment.create', ['propertyID' => $property->propertyID]) }}"
+                            class="btn btn-primary"> Book Appointment </a>
+
+                        <a href="#" class="btn btn-primary"> View agent profile</a>
+
+                        <a href="#" class="btn btn-primary"> Send Enquiry </a>
+
+                    </div>
+                    <div class="terms-and-policy">
+                        By clicking the link, I confirm that I have read the <a href="#">privacy policy</a> and
+                        allow my
+                        information to be
+                        shared with this agent who may contact me later.
+                    </div>
                 </div>
             </div>
         </div>
+        </section>
+
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all tab headers and tab panels
+        const tabHeaders = document.querySelectorAll('.property-amenities__tab-header-item');
+        const tabPanels = document.querySelectorAll('.tab-pane');
+
+        // Add click event listeners to each tab header
+        tabHeaders.forEach((header, index) => {
+            header.addEventListener('click', function() {
+                // Remove 'active' class from all tab headers and tab panels
+                tabHeaders.forEach(tabHeader => tabHeader.classList.remove('active'));
+                tabPanels.forEach(tabPanel => tabPanel.classList.remove('show', 'active'));
+
+                // Add 'active' class to the clicked tab header and corresponding tab panel
+                header.classList.add('active');
+                tabPanels[index].classList.add('show', 'active');
+            });
+        });
+    });
     </script>
 </body>
 

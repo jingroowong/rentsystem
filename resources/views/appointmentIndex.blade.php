@@ -19,7 +19,7 @@
                     @endif
         <h2 class="mt-4 mb-4">Upcoming Appointments</h2>
 
-      
+        @if(count($appointments) > 0)
         <table class="table">
             <thead>
                 <tr>
@@ -52,9 +52,9 @@
             </tbody>
         </table>
        
-        <!-- <p>No upcoming appointments.</p>  -->
-     
-
+        @else
+        <p>No upcoming appointments..</p>
+        @endif
         <a href="#" class="btn btn-primary">Back to Dashboard</a>
     </div>
 

@@ -28,7 +28,7 @@ class PropertyController extends Controller
         $states = State::all();
         $facilities = Facility::all();
         $walletBalance = Wallet::where('agentID', "AGT1234567")->value('balance');
-        return view('agent/propertyCreate', compact('states', 'facilities','walletBalance'));
+        return view('agent/propertyCreate', compact('states', 'facilities', 'walletBalance'));
     }
 
     /**
@@ -103,12 +103,12 @@ class PropertyController extends Controller
                 $propertyPhoto->dateUpload = now();
                 $propertyPhoto->save();
             }
-        
 
-        $success = true; // Set $success to true if the upload is successful
-    } else {
-        $success = false; // Set $success to false if there's an error
-    }
+
+            $success = true; // Set $success to true if the upload is successful
+        } else {
+            $success = false; // Set $success to false if there's an error
+        }
         return view('agent/propertyConfirmation', compact('success'));
     }
 
@@ -117,40 +117,61 @@ class PropertyController extends Controller
      */
     public function show($propertyID)
     {
-       
+
         // Assuming you have relationships set up in your Property model
-    $property = Property::with(['propertyPhotos', 'propertyFacilities'])->find($propertyID);
+        $property = Property::with(['propertyPhotos', 'propertyFacilities'])->find($propertyID);
 
-    if (!$property) {
-        // Handle property not found, redirect or show an error view
-        abort(404, 'Property not found');
+        if (!$property) {
+            // Handle property not found, redirect or show an error view
+            abort(404, 'Property not found');
+        }
+
+        // Assuming you have an agent relationship in your Property model
+        $agent = $property->agent;
+
+        return view('agent/propertyDetail', compact('property', 'agent'));
     }
 
-    // Assuming you have an agent relationship in your Property model
-    $agent = $property->agent;
+    public function edit($propertyID)
+    {
+        $states = State::all();
+        $facilities = Facility::all();
+        // Assuming you have relationships set up in your Property model
+        $property = Property::with(['propertyPhotos', 'propertyFacilities'])->find($propertyID);
 
-    return view('agent/propertyDetail', compact('property', 'agent'));
+        if (!$property) {
+            // Handle property not found, redirect or show an error view
+            abort(404, 'Property not found');
+        }
+
+        // Assuming you have an agent relationship in your Property model
+        $agent = $property->agent;
+
+        return view('agent/propertyUpdate', compact('property', 'agent','states', 'facilities'));
     }
 
-    // Other methods like edit, update, destroy, etc. can be implemented here.
+    public function update(Request $request)
+    {
+    }
+
 
     function generateUniquePropertyID()
-{
-    // Get the latest property ID from the database
-    $latestProperty = Property::latest('propertyID')->first();
+    {
+        // Get the latest property ID from the database
+        $latestProperty = Property::latest('propertyID')->first();
 
-    if ($latestProperty) {
-        // Extract the numeric part and increment it
-        $numericPart = (int)substr($latestProperty->propertyID, 4);
-        $numericPart++; // Increment by 1
+        if ($latestProperty) {
+            // Extract the numeric part and increment it
+            $numericPart = (int) substr($latestProperty->propertyID, 4);
+            $numericPart++; // Increment by 1
 
-        // Generate the new property ID with leading zeros
-        $newPropertyID = 'PRO' . str_pad($numericPart, 7, '0', STR_PAD_LEFT);
-    } else {
-        // If no property exists yet, start with PROP0000001
-        $newPropertyID = 'PRO0000001';
+            // Generate the new property ID with leading zeros
+            $newPropertyID = 'PRO' . str_pad($numericPart, 7, '0', STR_PAD_LEFT);
+        } else {
+            // If no property exists yet, start with PROP0000001
+            $newPropertyID = 'PRO0000001';
+        }
+
+        return $newPropertyID;
     }
-
-    return $newPropertyID;
-}
 }

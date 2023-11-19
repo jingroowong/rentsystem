@@ -24,6 +24,8 @@
 <body>
     <div class="container">
         <h2>Notifications</h2>
+
+        @if(count($notifications) > 0)
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -57,6 +59,9 @@
                 <button class="btn btn-danger" id="delete">Delete</button>
             </div>
         </div>
+        @else
+        <p>No notifications available.</p>
+        @endif
     </div>
 </body>
 

@@ -24,6 +24,8 @@
 <body>
     <div class="container">
         <h2>Notifications</h2>
+
+        @if(count($notifications) > 0)
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -42,7 +44,7 @@
                         </td>
                         <td>{{ $notification->subject }}</td>
                         <td>{{ $notification->content }}</td>
-                        <td>{{ $notification->timestamp->diffForHumans() }}</td>
+                        <td>{{ Carbon\Carbon::parse($notification->timestamp)->diffForHumans() }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -57,6 +59,9 @@
                 <button class="btn btn-danger" id="delete">Delete</button>
             </div>
         </div>
+        @else
+        <p>No notifications available.</p>
+        @endif
     </div>
 </body>
 

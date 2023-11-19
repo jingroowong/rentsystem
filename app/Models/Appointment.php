@@ -16,10 +16,10 @@ class Appointment extends Model
     public $incrementing = false; // Set this to false to prevent auto-incrementing
 
 // Relationships
-public function property()
-{
-    return $this->belongsTo(Property::class, 'propertyID', 'propertyID');
-}
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'propertyID', 'propertyID');
+    }
 
 public function tenant()
 {
