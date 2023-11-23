@@ -9,9 +9,17 @@
 </head>
 
 <body>
-<div class="container">
+@extends('layouts.adminApp')
 
-    <h1>Agent Wallet</h1> ID : {{ $walletID }}
+@section('content')
+<div class="ml-5 mt-2">
+@csrf
+        @if(\Session::has('success'))
+        <div class="alert alert-success">
+            <p>{{ \Session::get('success')}}</p>
+        </div><br />
+        @endif
+    <h2>Agent Wallet</h2> ID : {{ $walletID }}
 
 
     <div class="row">
@@ -20,9 +28,9 @@
             <a href="{{ route('pendingPayment') }}" class="link-secondary">View Pending Payment</a>
         </div>
         <div class="col-md-6">
-            <a href="{{ route('makePayment') }}" class="btn btn-primary btn-block  mt-2" style="width: 250px;">Make Payment for Rental Posting</a> </br>
-            <a href="{{ route('topUpMoney') }}" class="btn btn-secondary btn-block  mt-2" style="width: 250px;">Top Up Wallet</a></br>
-            <a href="{{ route('withdrawMoney') }}" class="btn btn-success btn-block mt-2" style="width: 250px;">Withdraw Money to Bank</a></br>
+            <a href="{{ route('makePayment') }}" class="btn btn-primary btn-block mt-2">Make Payment for Rental Posting</a> </br>
+            <a href="{{ route('topUpMoney') }}" class="btn btn-secondary btn-block  mt-2">Top Up Wallet</a></br>
+            <a href="{{ route('withdrawMoney') }}" class="btn btn-success btn-block mt-2">Withdraw Money to Bank</a></br>
         </div>
     </div>
     <h2>Payment History</h2>
@@ -48,6 +56,7 @@
     </table>
 
 </div>
+@endsection
 </body>
 
 </html>

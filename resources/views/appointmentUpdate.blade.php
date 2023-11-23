@@ -29,14 +29,8 @@
 </head>
 
 <body>
-@extends('layouts.adminApp')
-
-@section('content')
-<div class="ml-5 mt-2">
-<a href="{{ route('appointments.agentIndex') }}" class="btn btn-secondary mb-3">
-            <i class="fas fa-arrow-left"></i> Back
-        </a>
-        <h2>Appointment details</h2>
+    <div class="container">
+        <h2 class="mt-4 mb-4">Appointment details</h2>
         <div class="row">
             <!-- Display Property Photo -->
             <div class="col-md-6 propertyPhoto">
@@ -116,7 +110,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <form action="{{route('appointments.updateByAgent', $appointment->appID)}}" method="get">
+                <form action="{{route('appointments.update', $appointment->appID)}}" method="get">
                     @csrf
 
                     <div class="appointment-step">
@@ -214,7 +208,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    @endsection
 </body>
 
 </html>

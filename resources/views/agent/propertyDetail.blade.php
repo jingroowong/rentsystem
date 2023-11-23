@@ -41,14 +41,18 @@
         width: 70%;
         margin-top: 10px;
     }
-.facilities{
-    font-size: 18px;
-        padding: 10px; 
-}
 
-.facilities i{
-    margin-right: 20px;
-}
+    .facilities {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .facilities i {
+        margin-right: 20px;
+    }
+
+
+
     .propertyDetail td {
         font-size: 18px;
         padding: 10px;
@@ -95,8 +99,14 @@
 </head>
 
 <body>
-    <div class="container">
-        <h2 class="mt-4 mb-4">Property Details</h2>
+    @extends('layouts.adminApp')
+
+    @section('content')
+    <div class="ml-5 mt-2">
+    <a href="{{ route('properties') }}" class="btn btn-secondary mb-3">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <h2>Property Details</h2>
 
         <!-- Property Photo Carousel -->
         <div id="propertyCarousel" class="carousel slide" data-ride="carousel">
@@ -133,9 +143,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-md-4">
-                    <div class="price">
+                <div class="col-6 col-md-4 ">
+                    <div class="price d-flex justify-content-center">
                         <h3 class="amount">RM {{ $property->rentalAmount }} /MONTH</h3>
+                    </div>
+                    <div class="rentButton d-flex justify-content-center">
+                        <a href="#" class="btn btn-danger btn-lg">Rent This Space</a>
                     </div>
                 </div>
             </div>
@@ -232,7 +245,7 @@
                         </div>
                     </div>
                     <div class="card-body text-center agentBtn">
-                        <a href="{{ route('appointment.create', ['propertyID' => $property->propertyID]) }}"
+                        <a href="#"
                             class="btn btn-primary"> Book Appointment </a>
 
                         <a href="#" class="btn btn-primary"> View agent profile</a>
@@ -252,7 +265,7 @@
         </section>
 
     </div>
-    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js">
     </script>
@@ -279,6 +292,7 @@
         });
     });
     </script>
+    @endsection
 </body>
 
 </html>

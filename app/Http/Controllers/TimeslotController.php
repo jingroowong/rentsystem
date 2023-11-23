@@ -140,7 +140,8 @@ class TimeslotController extends Controller
         $timeslot = Timeslot::find($id);
         $timeslot->delete();
 
-        return redirect()->route('timeslots.index');
+        return redirect()->route('timeslots')->with('success', 'Timeslot '. $id .' deleted successfully!');
+   
     }
 
     

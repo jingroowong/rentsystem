@@ -10,9 +10,16 @@
 </head>
 
 <body>
-    <div class="container mt-5">
+@extends('layouts.adminApp')
+
+@section('content')
+<div class="ml-5 mt-2">
         <div id="add-timeslot-form">
+        <a href="{{ route('appointments.agentIndex') }}" class="btn btn-secondary mb-3">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
             <h2 class="mb-4">Add Timeslot</h2>
+            
             <form method="POST" action="{{ route('timeslots.store') }}">
                 @csrf
                 <div class="form-group">
@@ -49,6 +56,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    @endsection
 </body>
 
 </html>
+

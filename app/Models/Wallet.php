@@ -9,7 +9,11 @@ class Wallet extends Model
 {
 
     use HasFactory;
+    protected $primaryKey = 'walletID';
+    protected $table = 'wallets';
 
+    public $incrementing = false; // Set this to false to prevent auto-incrementing
+   
     public function agent()
     {
         return $this->belongsTo(Agent::class, 'agentID');

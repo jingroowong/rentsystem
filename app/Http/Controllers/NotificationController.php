@@ -12,18 +12,60 @@ class NotificationController extends Controller
      */
     public function index()
     {
+      
         $agentID = "AGT1234567";
         $notifications = Notification::where('userID', $agentID)->get();
-        return view('agent/notificationIndex', compact('notifications'));
+        $unreadCount = $notifications->where('status', 'Unread')->count();
+
+        return view('agent/notificationIndex', compact('notifications','unreadCount'));
     }
 
     public function tenantIndex()
     {
-        $tenantID = "TNT1234123";
+        $tenantID = "TNT1231234";
         $notifications = Notification::where('userID', $tenantID)->get();
-        return view('notificationIndex', compact('notifications'));
+        $unreadCount = $notifications->where('status', 'Unread')->count();
+
+        return view('notificationIndex', compact('notifications','unreadCount'));
     }
 
+    public function search(Request $request)
+    {
+        $agentID = "AGT1234567";
+        $readnotifications = Notification::where('userID', $agentID)->get();
+        $unreadCount = $readnotifications->where('status', 'Unread')->count();
+
+        $searchTerm = $request->input('search');
+
+        // Perform the search query based on your criteria
+        $notifications = Notification::where('subject', 'like', '%' . $searchTerm . '%')
+            ->orWhere('content', 'like', '%' . $searchTerm . '%')
+            ->orderBy('timestamp', 'desc')
+            ->get();
+
+     
+        // Return the search results
+        return view('agent/notificationIndex', compact('notifications','unreadCount'));
+    }
+    public function markAsRead(Request $request)
+    {
+        $notificationIDs = $request->input('notification');
+
+        // Update the notification status to 'Read'
+        Notification::whereIn('notificationID', $notificationIDs)->update(['status' => 'Read']);
+
+        return redirect()->back()->with('success', 'Notifications marked as read.');
+    }
+
+    public function delete(Request $request)
+    {
+        $notificationIDs = $request->input('notification');
+
+        // Delete the selected notifications
+        Notification::whereIn('notificationID', $notificationIDs)->delete();
+
+        return redirect()->back()->with('success', 'Notifications deleted.');
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -40,6 +82,7 @@ class NotificationController extends Controller
         //
     }
 
+    
     /**
      * Display the specified resource.
      */

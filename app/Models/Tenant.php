@@ -9,10 +9,16 @@ class Tenant extends Model
 {
     use HasFactory;
     protected $primaryKey = 'tenantID';
- 
+    protected $table = 'tenants';
+
     public $incrementing = false; // Set this to false to prevent auto-incrementing
     public function appointment()
     {
-        return $this->hasMany(Appointment::class, 'appID', 'appID');
+        return $this->hasMany(Appointment::class, 'tenantID');
+    }
+
+    public function propertyRentals()
+    {
+        return $this->hasMany(PropertyRental::class, 'tenantID');
     }
 }

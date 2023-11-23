@@ -9,26 +9,17 @@
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <style>
-    body {
-        background-color: #eee;
-    }
-
-    .container {
-        height: 100vh;
-
-    }
-
-    .card {
+    .wallet .card {
         border: none;
     }
 
-    .form-control {
+    .wallet .form-control {
         border-bottom: 2px solid #eee !important;
         border: none;
         font-weight: 600
     }
 
-    .form-control:focus {
+    .wallet .form-control:focus {
         color: #495057;
         background-color: #fff;
         border-color: #8bbafe;
@@ -38,11 +29,11 @@
         border-bottom: 2px solid blue !important;
     }
 
-    .card-blue {
+    .wallet .card-blue {
         background-color: #492bc4;
     }
 
-    .hightlight {
+    .wallet .hightlight {
         background-color: #5737d9;
         padding: 10px;
         border-radius: 10px;
@@ -50,28 +41,28 @@
         font-size: 14px;
     }
 
-    .yellow {
+    .wallet .yellow {
         color: #fdcc49;
     }
 
-    .decoration {
+    .wallet .decoration {
         text-decoration: none;
         font-size: 14px;
     }
 
-    .btn-success {
+    .wallet .btn-success {
         color: #fff;
         background-color: #492bc4;
         border-color: #492bc4;
     }
 
-    .btn-success:hover {
+    .wallet .btn-success:hover {
         color: #fff;
         background-color: #492bc4;
         border-color: #492bc4;
     }
 
-    .decoration:hover {
+    .wallet .decoration:hover {
         text-decoration: none;
         color: #fdcc49;
     }
@@ -80,12 +71,15 @@
 </head>
 
 <body>
-    <div class="container mt-5 px-5">
-    <a href="{{ route('agentWallet') }}" class="btn btn-secondary mb-3">
+    @extends('layouts.adminApp')
+
+    @section('content')
+    <div class="ml-5 mt-2 wallet">
+        <a href="{{ route('agentWallet') }}" class="btn btn-secondary mb-3">
             <i class="fas fa-arrow-left"></i> Back
         </a>
-        <h1>Pay Posting Fee</h1>
-        
+        <h2>Pay Posting Fee</h2>
+
         <div class="mb-4">
             <h2>Number of active property posts: {{ $activePropertyCount }}</h2>
             <p>Your current wallet balance: ${{ $walletBalance }}</p>
@@ -102,15 +96,20 @@
                                 <div class="form-group">
                                     <label for="duration">Select Posting Duration to extend:</label>
                                     <select name="duration" id="duration" class="form-control">
-                                        <option value="7">7 days</option>
-                                        <option value="14">14 days</option>
-                                        <option value="30">30 days</option>
+                                        <option value="7" data-discount="0">7 days</option>
+                                        <option value="14" data-discount="10">14 days (-10% off)</option>
+                                        <option value="30" data-discount="15">30 days (-15% off)</option>
                                     </select>
                                 </div>
 
                                 <div class="mt-3">
-                                    <button type="submit" class="btn btn-primary" style="width:300px;">Pay Now</button>
+                                    <label for="amount">Total Amount:</label>
+                                    <span id="totalAmount">$14.00</span>
+                                    <input type="hidden" name="amount" id="amount" value="0">
                                 </div>
+                                <button type="submit" class="btn btn-primary" style="width:300px;">Pay Now</button>
+        
+
                         </div>
                     </div>
                     </form>
@@ -131,8 +130,28 @@
             </div>
         </div>
     </div>
+    <script>
+    // Add event listener to update the total amount based on the selected duration
+    document.getElementById('duration').addEventListener('change', function() {
+        // Get selected option
+        const selectedOption = this.options[this.selectedIndex];
 
+        // Get duration and discount from the selected option
+        const duration = parseInt(selectedOption.value);
+        const discount = parseInt(selectedOption.getAttribute('data-discount'));
 
+        // Calculate total amount with discount
+        const baseAmount = 2 * duration;
+        const discountedAmount = baseAmount - (baseAmount * discount) / 100;
+
+        // Update displayed total amount
+        document.getElementById('totalAmount').innerText = `$${discountedAmount.toFixed(2)}`;
+
+        // Update hidden input value for form submission
+        document.getElementById('amount').value = discountedAmount;
+    });
+    </script>
+    @endsection
 </body>
 
 </html>

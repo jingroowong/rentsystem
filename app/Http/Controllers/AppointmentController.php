@@ -14,6 +14,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
+        
         $tenantID = "TNT1231234";
         $appointments = Appointment::where('tenantID', $tenantID)->get();
         // $appointments = Appointment::all();
@@ -92,9 +93,18 @@ class AppointmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        // Find the appointment by ID
+        $appointment = Appointment::find($id);
+
+        // Check if the appointment exists
+        if (!$appointment) {
+            abort(404, 'Appointment not found');
+        }
+            
+        // Pass the appointment data to the view
+        return view('agent/appointmentDelete', compact( 'appointment'));
     }
 
     /**
@@ -102,23 +112,92 @@ class AppointmentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+          // Find the appointment by ID
+          $appointment = Appointment::find($id);
+
+          // Check if the appointment exists
+          if (!$appointment) {
+              abort(404, 'Appointment not found');
+          }
+  
+                  // Retrieve the available timeslots
+                  $availableTimeslots = Timeslot::where('agentID', $appointment->property->agentID)
+                  ->orderBy('date', 'asc')
+                  ->orderBy('startTime', 'asc')
+                  ->get();
+              // Extract distinct dates from timeslots
+              $availableDates = $availableTimeslots->pluck('date')->unique()->values()->all();
+  
+              
+          // Pass the appointment data to the view
+          return view('agent/appointmentUpdate', compact('appointment','availableTimeslots', 'availableDates'));
+   
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+         // Find the appointment by ID
+         $appointment = Appointment::find($request->appID);
+
+         // Check if the appointment exists
+         if (!$appointment) {
+             abort(404, 'Appointment not found');
+         }
+
+        // Update appointment fields with the new values
+        $appointment->timeslotID = $request->timeslotID;
+
+        // Save the updated appointment
+        $appointment->save();
+
+        // Redirect back with a success message
+        return redirect()->route('appointments')->with('success', 'Appointment updated successfully');
+    }
+
+    public function updateByAgent(Request $request)
+    {
+         // Find the appointment by ID
+         $appointment = Appointment::find($request->appID);
+
+         // Check if the appointment exists
+         if (!$appointment) {
+             abort(404, 'Appointment not found');
+         }
+
+        // Update appointment fields with the new values
+        $appointment->timeslotID = $request->timeslotID;
+
+        // Save the updated appointment
+        $appointment->save();
+
+        // Redirect back with a success message
+        return redirect()->route('appointments.agentIndex')->with('success', 'Appointment updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function cancel(string $id)
     {
-        //
+          // Find the appointment by ID
+          $appointment = Appointment::find($id);
+
+          // Check if the appointment exists
+          if (!$appointment) {
+              abort(404, 'Appointment not found');
+          }
+ 
+         // Update appointment fields with the new values
+         $appointment->status = "Cancelled";
+ 
+         // Save the updated appointment
+         $appointment->save();
+ 
+         // Redirect back with a success message
+         return redirect()->route('appointments')->with('success', 'Appointment cancel successfully');
     }
 
     public function generateUniqueAppointmentID()

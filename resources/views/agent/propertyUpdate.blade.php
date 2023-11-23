@@ -36,8 +36,10 @@
 </head>
 
 <body>
+@extends('layouts.adminApp')
 
-    <div class="container">
+@section('content')
+<div class="container">
         <h2>Update Property</h2>
         <div class="progress">
             <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="33" aria-valuemin="0"
@@ -320,8 +322,8 @@
 
                 <!-- Next button to move to Stage 4 or Previous button to go back to Stage 2 -->
                 <input type="submit" class="btn btn-success" id="confirm" value="Confirm Update">
-                <button type="button" class="btn btn-secondary" id="previous-stage-2">Previous</button>
-            </div>
+<button type="button" class="btn btn-secondary" id="previous-stage-3">Previous</button>
+    </div>
 
             <script>
             // Function to update the preview based on user input
@@ -490,17 +492,17 @@
                 updateProgressBar(3);
             });
 
-            $('#confirm').click(function() {
-                // Move to Stage 4
-                $('#stage-3').addClass('hidden');
-                $('#stage-4').removeClass('hidden');
-                updateProgressBar(4);
-            });
+           
 
         });
+
+        document.getElementById('confirm').addEventListener('click', function() {
+        document.querySelector('form').submit();
+    });
         </script>
     </div>
 
+    @endsection
 </body>
 
 </html>

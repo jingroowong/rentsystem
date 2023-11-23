@@ -11,12 +11,12 @@
 
 <body>
     <div class="container">
-    @csrf
-                    @if(\Session::has('success'))
-                    <div class="alert alert-success">
-                        <p>{{ \Session::get('success')}}</p>
-                    </div><br />
-                    @endif
+        @csrf
+        @if(\Session::has('success'))
+        <div class="alert alert-success">
+            <p>{{ \Session::get('success')}}</p>
+        </div><br />
+        @endif
         <h2 class="mt-4 mb-4">Upcoming Appointments</h2>
 
         @if(count($appointments) > 0)
@@ -38,20 +38,16 @@
                     <td>{{ $appointment->timeslot->startTime }} - {{ $appointment->timeslot->endTime }}</td>
                     <td>{{ $appointment->status }}</td>
                     <td>
-                        <a href="{{ route('appointments.edit', $appointment->appID) }}" class="btn btn-primary">Modify</a>
-                        <form action="{{ route('appointments.destroy', $appointment->appID) }}" method="post"
-                            style="display:inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger"
-                                onclick="return confirm('Are you sure you want to cancel this appointment?')">Cancel</button>
-                        </form>
+                        <a href="{{ route('appointments.edit', $appointment->appID) }}"
+                            class="btn btn-primary">Modify</a>
+                        <a href="{{ route('appointments.show', $appointment->appID) }}"
+                            class="btn btn-danger">Cancel</a>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-       
+
         @else
         <p>No upcoming appointments..</p>
         @endif

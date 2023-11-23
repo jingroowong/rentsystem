@@ -36,9 +36,11 @@
 </head>
 
 <body>
-    <div class="container">
-        
-    <a href="{{ route('agentWallet') }}" class="btn btn-secondary mb-3">
+    @extends('layouts.adminApp')
+
+    @section('content')
+    <div class="ml-5 mt-2">
+        <a href="{{ route('agentWallet') }}" class="btn btn-secondary mb-3">
             <i class="fas fa-arrow-left"></i> Back
         </a>
         <h2>Top-Up Wallet</h2>
@@ -69,7 +71,7 @@
                         <div class="tab-content">
                             <!-- credit card info-->
                             <div id="credit-card" class="tab-pane fade show active pt-3">
-                                <form role="form" onsubmit="event.preventDefault()">
+                               
                                     <div class="form-group"> <label for="username">
                                             <h6>Card Owner</h6>
                                         </label> <input type="text" name="username" placeholder="Card Owner Name"
@@ -118,14 +120,14 @@
                         </div> <!-- End -->
                         <!-- Paypal info -->
                         <div id="paypal" class="tab-pane fade pt-3">
-                             <!-- Top-Up Amount -->
-                             <div class="form-group">
-                                            <label for="topUpAmount">
-                                                <h6>Enter Top-Up Amount (MYR)</h6>
-                                            </label>
-                                            <input type="number" class="form-control" id="topUpAmount"
-                                                name="topUpAmount" placeholder="Enter the desired amount">
-                                        </div>
+                            <!-- Top-Up Amount -->
+                            <div class="form-group">
+                                <label for="topUpAmount">
+                                    <h6>Enter Top-Up Amount (MYR)</h6>
+                                </label>
+                                <input type="number" class="form-control" id="topUpAmount" name="topUpAmount"
+                                    placeholder="Enter the desired amount">
+                            </div>
                             <h6 class="pb-2">Select your paypal account type</h6>
                             <div class="form-group "> <label class="radio-inline"> <input type="radio" name="optradio"
                                         checked> Domestic </label> <label class="radio-inline"> <input type="radio"
@@ -138,14 +140,15 @@
                         </div> <!-- End -->
                         <!-- bank transfer info -->
                         <div id="net-banking" class="tab-pane fade pt-3">
-                             <!-- Top-Up Amount -->
-                             <div class="form-group">
-                                            <label for="topUpAmount">
-                                                <h6>Enter Top-Up Amount (MYR)</h6>
-                                            </label>
-                                            <input type="number" class="form-control" id="topUpAmount"
-                                                name="topUpAmount" placeholder="Enter the desired amount">
-                                        </div>
+                        <form action="{{route('topUp')}}" method="get">
+                            <!-- Top-Up Amount -->
+                            <div class="form-group">
+                                <label for="topUpAmount">
+                                    <h6>Enter Top-Up Amount (MYR)</h6>
+                                </label>
+                                <input type="number" class="form-control" id="topUpAmount" name="topUpAmount"
+                                    placeholder="Enter the desired amount">
+                            </div>
                             <div class="form-group "> <label for="Select Your Bank">
                                     <h6>Select your Bank</h6>
                                 </label> <select class="form-control" id="ccmonth">
@@ -164,7 +167,7 @@
                                     <option value="affinbank">Affin Bank</option>
                                 </select> </div>
                             <div class="form-group">
-                                <p> <button type="button" class="btn btn-primary "><i
+                                <p> <button type="submit" class="btn btn-primary "><i
                                             class="fas fa-mobile-alt mr-2"></i> Proceed Payment</button> </p>
                             </div>
                             <p class="text-muted">Note: After clicking on the button, you will be directed to a secure
@@ -186,6 +189,7 @@
         </script>
 
 
+        @endsection
 </body>
 
 </html>

@@ -6,6 +6,7 @@ use App\Models\Notification;
 use App\Models\Agent;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
+use App\Models\PropertyRental;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +36,7 @@ class WalletController extends Controller
         // Retrieve agent's balance
         $walletBalance = Wallet::where('agentID', "AGT1234567")->value('balance');
         $activePropertyCount = 4;
-        return view('agent/walletPayment', compact('walletBalance','activePropertyCount'));
+        return view('agent/walletPayment', compact('walletBalance', 'activePropertyCount'));
     }
 
     /**
@@ -43,31 +44,23 @@ class WalletController extends Controller
      */
     public function payment(Request $request)
     {
-//         // Your logic for making a payment
-//   // Validate the payment details (e.g., duration)
-//   $request->validate([
-//     'duration' => 'required|in:7,14,30', // Validate the selected duration
-// ]);
+        //Retrieve the agent's wallet
+        $agentWallet = Agent::find("AGT1234567")->wallet;
+        // Deduct the posting fee from the agent's wallet balance
 
-// // Deduct the posting fee from the agent's wallet balance
-// $walletBalance = 800; // Replace with actual balance retrieval logic
-// $postingFee = $request->input('duration') * 10; // Replace 10 with your posting fee rate
+        $deductAmount = $request->input('amount');
+        if ($agentWallet->balance < $deductAmount) {
+            // Handle insufficient balance
+            return redirect()->route('payment')->with('error', 'Insufficient balance.');
+        } else {
+            $agentWallet->balance -= $deductAmount;
+            $agentWallet->save();
+        }
+        //TO:DOO
+//Update the duration
+//Create wallet transaction
 
-// if ($walletBalance < $postingFee) {
-//     // Handle insufficient balance
-//     return redirect()->route('payment')->with('error', 'Insufficient balance.');
-// }
-
-// // Deduct the posting fee from the wallet balance
-// $newBalance = $walletBalance - $postingFee;
-
-// // Update the wallet balance (this code will vary depending on your implementation)
-// // Replace the following with your update logic:
-// // Wallet::where('agentID', $agentID)->update(['balance' => $newBalance]);
-
-// // Return the confirmation message
-// return view('payment.paymentConfirmation', ['newDuration' => $request->input('duration')]);
-
+        // Return the confirmation message
         return redirect()->route('agentWallet')
             ->with('success', 'Payment successful.');
     }
@@ -84,10 +77,19 @@ class WalletController extends Controller
      */
     public function topUp(Request $request)
     {
-        // Your logic for making a payment
+
+        //Retrieve the agent's wallet
+        $agentWallet = Agent::find("AGT1234567")->wallet;
+        // Deduct the posting fee from the agent's wallet balance
+
+        $topUpAmount = $request->input('topUpAmount');
+
+        $agentWallet->balance += $topUpAmount;
+        $agentWallet->save();
+
 
         return redirect()->route('agentWallet')
-            ->with('success', 'Top Up successful.');
+            ->with('success', 'Top Up RM ' . $topUpAmount . ' successful.');
     }
 
     public function walletWithdraw(Request $request)
@@ -168,8 +170,14 @@ class WalletController extends Controller
 
     public function walletPending(Request $request)
     {
-       
-        return view('agent/walletPending');
+        //Retrieve the agent's wallet
+        $agent = Agent::find("AGT1234567");
+
+        // Retrieve all property rentals with rentStatus "Paid" associated with the agent
+        $pendingRentals = PropertyRental::where('rentStatus', 'Paid')
+            ->whereIn('propertyID', $agent->properties->pluck('propertyID')) // Assuming 'id' is the primary key in Property
+            ->get();
+        return view('agent/walletPending', compact('pendingRentals', 'agent'));
     }
 
     public function generateUniqueTransactionID()

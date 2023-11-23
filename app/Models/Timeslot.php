@@ -25,7 +25,7 @@ class Timeslot extends Model
     }
     public function appointment()
     {
-        return $this->hasOne(Appointment::class, 'appID', 'appID');
+        return $this->hasOne(Appointment::class, 'timeslotID', 'timeslotID');
     }
 
 }

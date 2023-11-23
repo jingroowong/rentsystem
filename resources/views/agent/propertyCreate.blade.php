@@ -34,8 +34,13 @@
 </head>
 
 <body>
+@extends('layouts.adminApp')
 
-    <div class="container">
+@section('content')
+<div class="container">
+<a href="{{ route('properties') }}" class="btn btn-secondary mb-3">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
         <h2>Create Property</h2>
         <div class="progress">
             <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0"
@@ -538,6 +543,7 @@
         </script>
     </div>
 
+    @endsection
 </body>
 
 </html>
